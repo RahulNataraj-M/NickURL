@@ -7,12 +7,34 @@ import { redirectShortUrl } from "./controllers/shortUrl.js";
 dotenv.config();
 
 const port = process.env.PORT || 5001;
+const allowedOrigins = (process.env.CORS_ORIGIN || "http://localhost:3000")
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+const isAllowedOrigin = (origin) => {
+    if (!origin) return true;
+    if (allowedOrigins.includes(origin)) return true;
+
+    try {
+        const { hostname } = new URL(origin);
+        return hostname.endsWith(".vercel.app");
+    } catch {
+        return false;
+    }
+};
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || "http://localhost:3000",
+    origin: (origin, callback) => {
+        if (isAllowedOrigin(origin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true,
 }));
 
