@@ -4,8 +4,11 @@ const parseError = async (response, fallbackMessage) => {
   throw new Error(message || fallbackMessage)
 }
 
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
+const apiPath = (path) => `${API_BASE_URL}${path}`
+
 export const getUrls = async () => {
-  const response = await fetch('/api/shortUrl')
+  const response = await fetch(apiPath('/api/shortUrl'))
 
   if (response.status === 404) {
     return []
@@ -20,7 +23,7 @@ export const getUrls = async () => {
 }
 
 export const createShortUrl = async (fullUrl) => {
-  const response = await fetch('/api/shortUrl', {
+  const response = await fetch(apiPath('/api/shortUrl'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ fullUrl: fullUrl.trim() }),
@@ -34,7 +37,7 @@ export const createShortUrl = async (fullUrl) => {
 }
 
 export const deleteShortUrl = async (id) => {
-  const response = await fetch(`/api/shortUrl/${id}`, {
+  const response = await fetch(apiPath(`/api/shortUrl/${id}`), {
     method: 'DELETE',
   })
 

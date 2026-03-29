@@ -8,6 +8,11 @@ import { createShortUrl, deleteShortUrl, getUrls } from './api/shortUrl'
 function App() {
   const [fullUrl, setFullUrl] = useState('')
   const queryClient = useQueryClient()
+  const shortLinkBase = (
+    import.meta.env.VITE_SHORT_LINK_BASE ||
+    import.meta.env.VITE_API_BASE_URL ||
+    ''
+  ).replace(/\/$/, '')
 
   const {
     data: urls = [],
@@ -50,7 +55,9 @@ function App() {
     await deleteMutation.mutateAsync(id)
   }
 
-  const getShortLink = (item) => item.shortLink || `http://localhost:5001/${item.shortUrl}`
+  const getShortLink = (item) =>
+    item.shortLink ||
+    (shortLinkBase ? `${shortLinkBase}/${item.shortUrl}` : `${window.location.origin}/${item.shortUrl}`)
 
   const handleCopy = async (item) => {
     try {

@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "npm --prefix server-app start",
+    "postinstall": "npm --prefix server-app install",
     "dev": "concurrently \"npm --prefix server-app run dev\" \"npm --prefix client-app run dev\"",
     "dev:server": "npm --prefix server-app run dev",
     "dev:client": "npm --prefix client-app run dev",
