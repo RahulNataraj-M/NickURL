@@ -1,0 +1,17 @@
+{
+  "name": "url-shortner-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "npm --prefix server-app start",
+    "dev": "concurrently \"npm --prefix server-app run dev\" \"npm --prefix client-app run dev\"",
+    "dev:server": "npm --prefix server-app run dev",
+    "dev:client": "npm --prefix client-app run dev",
+    "build:client": "npm --prefix client-app run build",
+    "install:server": "npm --prefix server-app install",
+    "install:client": "npm --prefix client-app install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
