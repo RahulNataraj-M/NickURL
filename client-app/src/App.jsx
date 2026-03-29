@@ -90,7 +90,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="app-shell">
       <header className="topbar">
         <img src={logo} alt="NickURL logo" className="topbar-logo" />
         <span>NickURL</span>
@@ -154,8 +154,7 @@ function App() {
       </main>
 
       <footer className="footer">Copyright © NickURL | Rahul Nataraj M</footer>
-
-    </>
+    </div>
   )
 }
 

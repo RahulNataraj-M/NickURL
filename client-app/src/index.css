@@ -4,6 +4,7 @@
 
 html {
   font-size: 70%;
+  height: 100%;
 }
 
 body {
@@ -16,5 +17,8 @@ body {
   min-width: 320px;
   background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
   min-height: 100vh;
-  padding: 20px 0;
+}
+
+#root {
+  min-height: 100vh;
 }
