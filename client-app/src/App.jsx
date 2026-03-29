@@ -5,8 +5,30 @@ import './App.css'
 import logo from '../logo.png'
 import { createShortUrl, deleteShortUrl, getUrls } from './api/shortUrl'
 
+const USER_ID_STORAGE_KEY = 'url-shortener-user-id'
+
+const generateUserId = () => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID()
+  }
+
+  return `user-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`
+}
+
+const getOrCreateUserId = () => {
+  const existingUserId = localStorage.getItem(USER_ID_STORAGE_KEY)
+  if (existingUserId) {
+    return existingUserId
+  }
+
+  const generatedUserId = generateUserId()
+  localStorage.setItem(USER_ID_STORAGE_KEY, generatedUserId)
+  return generatedUserId
+}
+
 function App() {
   const [fullUrl, setFullUrl] = useState('')
+  const [userId] = useState(() => getOrCreateUserId())
   const queryClient = useQueryClient()
   const shortLinkBase = (
     import.meta.env.VITE_SHORT_LINK_BASE ||
@@ -19,15 +41,15 @@ function App() {
     isError,
     error,
   } = useQuery({
-    queryKey: ['shortUrls'],
-    queryFn: getUrls,
+    queryKey: ['shortUrls', userId],
+    queryFn: () => getUrls(userId),
   })
 
   const createMutation = useMutation({
     mutationFn: createShortUrl,
     onSuccess: async () => {
       setFullUrl('')
-      await queryClient.invalidateQueries({ queryKey: ['shortUrls'] })
+      await queryClient.invalidateQueries({ queryKey: ['shortUrls', userId] })
     },
     onError: (err) => {
       toast.error(err.message || 'Something went wrong while creating URL')
@@ -37,7 +59,7 @@ function App() {
   const deleteMutation = useMutation({
     mutationFn: deleteShortUrl,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['shortUrls'] })
+      await queryClient.invalidateQueries({ queryKey: ['shortUrls', userId] })
     },
     onError: (err) => {
       toast.error(err.message || 'Something went wrong while deleting URL')
@@ -47,11 +69,11 @@ function App() {
   const handleCreate = async (event) => {
     event.preventDefault()
     if (!fullUrl.trim()) return
-    await createMutation.mutateAsync(fullUrl)
+    await createMutation.mutateAsync({ fullUrl, userId })
   }
 
   const handleDelete = async (id) => {
-    await deleteMutation.mutateAsync(id)
+    await deleteMutation.mutateAsync({ id, userId })
   }
 
   const getShortLink = (item) =>

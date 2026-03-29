@@ -7,8 +7,10 @@ const parseError = async (response, fallbackMessage) => {
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '')
 const apiPath = (path) => `${API_BASE_URL}${path}`
 
-export const getUrls = async () => {
-  const response = await fetch(apiPath('/api/shortUrl'))
+export const getUrls = async (userId) => {
+  const response = await fetch(apiPath(`/api/shortUrl?userId=${encodeURIComponent(userId)}`), {
+    headers: { 'x-user-id': userId },
+  })
 
   if (response.status === 404) {
     return []
@@ -22,11 +24,11 @@ export const getUrls = async () => {
   return Array.isArray(data) ? data : []
 }
 
-export const createShortUrl = async (fullUrl) => {
+export const createShortUrl = async ({ fullUrl, userId }) => {
   const response = await fetch(apiPath('/api/shortUrl'), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ fullUrl: fullUrl.trim() }),
+    body: JSON.stringify({ fullUrl: fullUrl.trim(), userId }),
   })
 
   if (!response.ok) {
@@ -36,9 +38,10 @@ export const createShortUrl = async (fullUrl) => {
   return response.json()
 }
 
-export const deleteShortUrl = async (id) => {
+export const deleteShortUrl = async ({ id, userId }) => {
   const response = await fetch(apiPath(`/api/shortUrl/${id}`), {
     method: 'DELETE',
+    headers: { 'x-user-id': userId },
   })
 
   if (!response.ok) {

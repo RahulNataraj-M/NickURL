@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 import {nanoid} from "nanoid";
 
 const shortUrlSchema=new mongoose.Schema({
+    userId:{
+        type:String,
+        required:true,
+        trim:true
+    },
     fullUrl:{
         type:String,
         required:true
@@ -19,5 +24,7 @@ const shortUrlSchema=new mongoose.Schema({
     timestamps:true
 }
 );
+
+shortUrlSchema.index({ userId: 1, fullUrl: 1 }, { unique: true });
 
 export const urlModel=mongoose.model("ShortUrl",shortUrlSchema);
