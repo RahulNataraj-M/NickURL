@@ -41,11 +41,18 @@ app.use(cors({
 app.use("/api/",shortUrl);
 app.get("/:shortUrl", redirectShortUrl);
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-    dbConnection().then(() => {
+const startServer = async () => {
+    try {
+        await dbConnection();
         console.log("Connected to MongoDB");
-    }).catch((err) => {
+
+        app.listen(port, () => {
+            console.log(`Server is running on port ${port}`);
+        });
+    } catch (err) {
         console.error("Error connecting to MongoDB", err);
-    });
-});
+        process.exit(1);
+    }
+};
+
+startServer();
