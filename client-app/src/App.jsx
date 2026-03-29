@@ -16,7 +16,6 @@ function App() {
 
   const {
     data: urls = [],
-    isLoading,
     isError,
     error,
   } = useQuery({
@@ -107,10 +106,9 @@ function App() {
             <span>ACTION</span>
           </div>
 
-          {isLoading && <p className="state-text">Loading URLs...</p>}
-          {!isLoading && urls.length === 0 && <p className="state-text">No URLs generated yet</p>}
+          {urls.length === 0 && <p className="state-text">No URLs generated yet</p>}
 
-          {[...urls].reverse().map((item) => (
+          {urls.length > 0 && [...urls].reverse().map((item) => (
             <div className="table-row" key={item._id}>
               <p className="full-url">{item.fullUrl}</p>
               <a className="short-url" href={getShortLink(item)} target="_blank" rel="noreferrer">
