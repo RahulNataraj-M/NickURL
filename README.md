@@ -16,29 +16,31 @@ NickURL is a simple and efficient URL shortener web application that converts lo
 4. Other Tools: NanoID, REST API <br><br>
 
 ## **Project Structure:** <br>
-│── client/ # Frontend 
-│── server-app/ # Backend (Express API) 
-│── models/ # MongoDB schemas 
-│── routes/ # API routes 
+│── client/ # Frontend <br>
+│── server-app/ # Backend (Express API) <br>
+│── models/ # MongoDB schemas <br>
+│── routes/ # API routes <br>
 │── .env # Environment variables <br> <br>
 
 ## **Installation & Setup** <br>
-1. Clone the repository
-    git clone https://github.com/your-username/NickURL.git
+### 1. Clone the repository <br>
+    git clone https://github.com/your-username/NickURL.git 
     cd NickURL
-2. Install dependencies
-    npm install
-    cd client
-    npm install
-3. Setup environment variables
-    Create a .env file in root:
-    MONGO_URI=your_mongodb_connection_string
-    PORT=5000
-4. Run the application
-    Backend:
-      npm start
-    Frontend:
-      cd client
-      npm start
+### 2. Install dependencies <br>
+    npm install 
+    cd client 
+    npm install 
+### 3. Setup environment variables <br>
+    Create a .env file in root: 
+    MONGO_URI=your_mongodb_connection_string 
+    PORT=5000 
+### 4. Run the application <br>
+    Backend: 
+      npm start 
+    Frontend: 
+      cd client 
+      npm start 
+<br>
 
+## **UI Preview** <br>
 <img width="1913" height="984" alt="image" src="https://github.com/user-attachments/assets/a4ffafc0-8e20-4861-9b5d-c02744c9b487" />
