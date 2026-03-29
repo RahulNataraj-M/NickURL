@@ -1,4 +1,5 @@
-**NickURL – URL Shortener** <br><br>
+**NickURL – URL Shortener** <br>
+
 NickURL is a simple and efficient URL shortener web application that converts long URLs into short, easy-to-share links. It is built using the MERN stack and provides a clean UI with fast performance. <br> <br>
 
 **Features:** <br>
