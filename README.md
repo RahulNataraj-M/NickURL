@@ -16,7 +16,7 @@ NickURL is a simple and efficient URL shortener web application that converts lo
 4. Other Tools: NanoID, REST API <br><br>
 
 ## **Project Structure:** <br>
-│── client/ # Frontend <br>
+│── client-app/ # Frontend <br>
 │── server-app/ # Backend (Express API) <br>
 │── models/ # MongoDB schemas <br>
 │── routes/ # API routes <br>
