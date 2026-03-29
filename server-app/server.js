@@ -38,6 +38,10 @@ app.use(cors({
     credentials: true,
 }));
 
+app.get("/api/health", (_req, res) => {
+    res.status(200).json({ status: "ok" });
+});
+
 app.use("/api/",shortUrl);
 app.get("/:shortUrl", redirectShortUrl);
 
@@ -50,7 +54,8 @@ const startServer = async () => {
             console.log(`Server is running on port ${port}`);
         });
     } catch (err) {
-        console.error("Error connecting to MongoDB", err);
+        console.error("Error connecting to MongoDB", err?.message || err);
+        console.error("Startup check: ensure MONGODB_URI is set in hosting environment variables.");
         process.exit(1);
     }
 };
