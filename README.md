@@ -6,6 +6,7 @@ NickURL is a simple and efficient URL shortener web application that converts lo
 3. Simple and responsive UI
 4. Fast backend with Node.js & Express
 5. MongoDB database integration <br> <br>
+
 **Tech Stack:** <br>
 1. Frontend: HTML, CSS, JavaScript / React
 2. Backend: Node.js, Express.js
