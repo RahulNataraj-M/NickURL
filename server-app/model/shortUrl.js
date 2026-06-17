@@ -27,4 +27,4 @@ const shortUrlSchema=new mongoose.Schema({
 
 shortUrlSchema.index({ userId: 1, fullUrl: 1 }, { unique: true });
 
-export const urlModel=mongoose.model("ShortUrl",shortUrlSchema);
+export const urlModel = mongoose.model("ShortUrl", shortUrlSchema, "shorturls");

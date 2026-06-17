@@ -12,7 +12,12 @@ export const connection = () => {
 
     mongoose.set("bufferCommands", false);
 
+    const dbName = process.env.MONGODB_DB || 'test';
+
+    console.log(`Connecting to MongoDB URI (hidden) using database: ${dbName}`);
+
     return mongoose.connect(uri, {
         serverSelectionTimeoutMS: 30000,
+        dbName,
     });
 };
