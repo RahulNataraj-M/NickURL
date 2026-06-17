@@ -32,7 +32,7 @@ NickURL is a simple and efficient URL shortener web application that converts lo
     npm install 
 ### 3. Setup environment variables <br>
     Create a .env file in root: 
-    MONGO_URI=your_mongodb_connection_string 
+    MONGODB_URI=your_mongodb_connection_string 
     PORT=5000 
 ### 4. Run the application <br>
     Backend: 

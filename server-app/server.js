@@ -25,6 +25,8 @@ const isAllowedOrigin = (origin) => {
 };
 
 const app = express();
+let databaseReady = false;
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
@@ -42,6 +44,15 @@ app.get("/api/health", (_req, res) => {
     res.status(200).json({ status: "ok" });
 });
 
+const requireDatabaseReady = (_req, res, next) => {
+    if (!databaseReady) {
+        return res.status(503).json({ error: "Database connection is not ready" });
+    }
+
+    return next();
+};
+
+app.use(requireDatabaseReady);
 app.use("/api/",shortUrl);
 app.get("/:shortUrl", redirectShortUrl);
 
@@ -49,6 +60,7 @@ const connectToDatabase = async () => {
     try {
         await dbConnection();
         console.log("Connected to MongoDB");
+        databaseReady = true;
         return true;
     } catch (err) {
         console.error("Error connecting to MongoDB", err?.message || err);
@@ -58,13 +70,13 @@ const connectToDatabase = async () => {
 };
 
 const startServer = async () => {
-    while (!(await connectToDatabase())) {
-        await new Promise((resolve) => setTimeout(resolve, 15000));
-    }
-
     app.listen(port, () => {
         console.log(`Server is running on port ${port}`);
     });
+
+    while (!(await connectToDatabase())) {
+        await new Promise((resolve) => setTimeout(resolve, 15000));
+    }
 };
 
 void startServer();
