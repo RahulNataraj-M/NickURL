@@ -45,19 +45,23 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/",shortUrl);
 app.get("/:shortUrl", redirectShortUrl);
 
-const startServer = async () => {
-    try {
-        await dbConnection();
-        console.log("Connected to MongoDB");
+const startServer = () => {
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}`);
+    });
 
-        app.listen(port, () => {
-            console.log(`Server is running on port ${port}`);
-        });
-    } catch (err) {
-        console.error("Error connecting to MongoDB", err?.message || err);
-        console.error("Startup check: ensure MONGODB_URI is set in hosting environment variables.");
-        process.exit(1);
-    }
+    const connectToDatabase = async () => {
+        try {
+            await dbConnection();
+            console.log("Connected to MongoDB");
+        } catch (err) {
+            console.error("Error connecting to MongoDB", err?.message || err);
+            console.error("Startup check: ensure MONGODB_URI is set correctly in hosting environment variables.");
+            setTimeout(connectToDatabase, 15000);
+        }
+    };
+
+    void connectToDatabase();
 };
 
 startServer();
